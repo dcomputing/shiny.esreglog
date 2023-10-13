@@ -109,7 +109,7 @@
 #' @param custom_txts named list containing customized texts. For more details,
 #' see documentation for 'reglog_txt'. Provided list can contain only elements
 #' used by this function, but it is recommended to provide the same list for
-#' every 'shiny.reglog' function
+#' every 'shiny.esreglog' function
 #'
 #' @param use_login_modals list of logicals indicating if the modalDialog after log-in should be shown. Defaults to named list of logicals:
 #' \itemize{
@@ -159,7 +159,7 @@
 #'   #### example of db_method = "sqlite" and mail_method = "emayili"
 #'   
 #'   library(shiny)
-#'   library(shiny.reglog)
+#'   library(shiny.esreglog)
 #'   
 #'   # initializing sqlite
 #'   
@@ -167,10 +167,10 @@
 #'   create_sqlite_db(sqlite.path)
 #'   database <- sqlite_get_db(sqlite.path)
 #'   
-#'   # Define UI containing shiny.reglog modules
+#'   # Define UI containing shiny.esreglog modules
 #'   ui <- fluidPage(
 #'     
-#'     headerPanel(title = "shiny.reglog test"),
+#'     headerPanel(title = "shiny.esreglog test"),
 #'     
 #'     tabsetPanel(
 #'       tabPanel("Values", 
@@ -198,7 +198,7 @@
 #'     auth <- login_server(
 #'       db_method = "sqlite",
 #'       mail_method = "emayili",
-#'       appname = "shiny.reglog example",
+#'       appname = "shiny.esreglog example",
 #'       appaddress = "not-on-net.com",
 #'       sqlite_db = sqlite.path,
 #'       # arguments below need configuration for your mailing account

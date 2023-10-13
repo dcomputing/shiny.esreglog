@@ -14,7 +14,7 @@ Other mailConnectors:
 }
 \concept{mailConnectors}
 \section{Super class}{
-\code{\link[shiny.reglog:RegLogConnector]{shiny.reglog::RegLogConnector}} -> \code{RegLogGmailrConnector}
+\code{\link[shiny.esreglog:RegLogConnector]{shiny.esreglog::RegLogConnector}} -> \code{RegLogGmailrConnector}
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
@@ -34,9 +34,9 @@ mail handlers for register and password reset}
 \if{html}{\out{
 <details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="shiny.reglog" data-topic="RegLogConnector" data-id="get_logs"><a href='../../shiny.reglog/html/RegLogConnector.html#method-RegLogConnector-get_logs'><code>shiny.reglog::RegLogConnector$get_logs()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="shiny.reglog" data-topic="RegLogConnector" data-id="resume"><a href='../../shiny.reglog/html/RegLogConnector.html#method-RegLogConnector-resume'><code>shiny.reglog::RegLogConnector$resume()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="shiny.reglog" data-topic="RegLogConnector" data-id="suspend"><a href='../../shiny.reglog/html/RegLogConnector.html#method-RegLogConnector-suspend'><code>shiny.reglog::RegLogConnector$suspend()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shiny.esreglog" data-topic="RegLogConnector" data-id="get_logs"><a href='../../shiny.esreglog/html/RegLogConnector.html#method-RegLogConnector-get_logs'><code>shiny.esreglog::RegLogConnector$get_logs()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shiny.esreglog" data-topic="RegLogConnector" data-id="resume"><a href='../../shiny.esreglog/html/RegLogConnector.html#method-RegLogConnector-resume'><code>shiny.esreglog::RegLogConnector$resume()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shiny.esreglog" data-topic="RegLogConnector" data-id="suspend"><a href='../../shiny.esreglog/html/RegLogConnector.html#method-RegLogConnector-suspend'><code>shiny.esreglog::RegLogConnector$suspend()</code></a></span></li>
 </ul>
 </details>
 }}

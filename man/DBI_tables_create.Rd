@@ -85,7 +85,7 @@ Created tables should have following structure:
 }
 }
 \examples{
-library(shiny.reglog)
+library(shiny.esreglog)
 
 # create a tenporary SQLite database
 conn <- DBI::dbConnect(

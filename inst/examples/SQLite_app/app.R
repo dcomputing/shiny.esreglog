@@ -1,4 +1,4 @@
-library(shiny.reglog)
+library(shiny.esreglog)
 
 SQLite_db <- tempfile(fileext = ".sqlite")
 
@@ -14,7 +14,7 @@ DBI_tables_create(
 
 DBI::dbDisconnect(conn)
 
-shiny.reglog:::RegLogTest(
+shiny.esreglog:::RegLogTest(
   dbConnector = RegLogDBIConnector$new(
     RSQLite::SQLite(),
     dbname = SQLite_db

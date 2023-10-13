@@ -5,7 +5,7 @@ custom_txts <- list(
 
 test_that("RegLog_txt returns every language correctly", {
   
-  languages <- shiny.reglog:::RegLog_txts$.languages_registered
+  languages <- shiny.esreglog:::RegLog_txts$.languages_registered
   
   dicts <- lapply(
     languages,
@@ -34,14 +34,14 @@ test_that("RegLog_txt returns custom txts in whole lang", {
 
 test_that("RegLog_txt returns custom txts with specific field", {
   
-  for (field in names(shiny.reglog:::RegLog_txts$en)[1:5]) {
+  for (field in names(shiny.esreglog:::RegLog_txts$en)[1:5]) {
     
     expect_equal(
       RegLog_txt("en",
                  x = field,
                  custom_txts = custom_txts),
       if (field %in% names(custom_txts)) custom_txts[[field]]
-      else shiny.reglog:::RegLog_txts$en[[field]]
+      else shiny.esreglog:::RegLog_txts$en[[field]]
     )
   }
 })

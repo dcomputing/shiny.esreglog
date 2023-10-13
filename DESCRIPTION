@@ -15,7 +15,7 @@ Description: RegLog system provides a set of shiny modules to handle register
    it provides support for 'emayili' and 'gmailr' backends. Architecture makes 
    customizing usability pretty straightforward.
    The authentication system created 
-   with shiny.reglog is designed to be optional: user don't need to be logged-in 
+   with shiny.esreglog is designed to be optional: user don't need to be logged-in 
    to access your application, but when logged-in the user data can be used 
    to read from and write to relational databases.
 Depends:
@@ -53,4 +53,4 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
 VignetteBuilder: knitr
 Config/testthat/edition: 3
-URL: https://statismike.github.io/shiny.reglog/
+URL: https://statismike.github.io/shiny.esreglog/

@@ -87,7 +87,7 @@ Created spreadsheets will have following structure:
 }
 \examples{
 if (googlesheets4::gs4_has_token()) {
-  library(shiny.reglog)
+  library(shiny.esreglog)
   
   # mockup user data
   user_data <- 

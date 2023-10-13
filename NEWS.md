@@ -1,4 +1,4 @@
-# shiny.reglog 0.5.1
+# shiny.esreglog 0.5.1
 
 - added experimental `RegLogMongoConnector` - connector to mongodb database
 - added `shinytest2`-based tests
@@ -6,11 +6,11 @@
   - correct modal showing up with missing inputs on credentials change
   - `RegLogGsheetConnector` able to save logs into googlesheet database
 
-# shiny.reglog 0.5.0
+# shiny.esreglog 0.5.0
 
 With the release of v0.5.0 there are a lot of changes in the current implementation
 of the RegLog system. Most of the changes were implemented to provide more
-customization options in implementing `shiny.reglog` in your ShinyApp and to
+customization options in implementing `shiny.esreglog` in your ShinyApp and to
 widen its possibilities. At the same time I've strived to make the historical
 features still accessible, so it shouldn't be harder to use for novice 
 Shiny developers.
@@ -84,7 +84,7 @@ logic is straightforward.
 - `sqlite_get_db` and `gsheet_get_db`: getting tables and sheets is straightforward
 using functions from `DBI` or `googlesheets4` packages
 
-# shiny.reglog 0.4.2
+# shiny.esreglog 0.4.2
 
 * Added optional argument to `login_server`: `use_login_modals` enabling developer to silence systemic modals
 after any or all login attempts
@@ -96,7 +96,7 @@ this values:
   - "login_WrongPass", if the user provided incorrect password
   - "login_Success", if the user has been logged successfully
 
-# shiny.reglog 0.4.0
+# shiny.esreglog 0.4.0
 
 * Added `credentials` argument to `create_gsheet_db`, mirroring the same functionality of `create_sqlite_db`
 * Added `logout_button` function, providing the users a way to log out during usage of ShinyApp
@@ -104,7 +104,7 @@ this values:
 * Created vignette specifying the authorization process for `gmailr` and `googlesheets4` to use their methods of email sending and database storage
 * Removed `dbplyr` dependency
 
-# shiny.reglog 0.3.0
+# shiny.esreglog 0.3.0
 
 * Added `credentials` argument to `create_sqlite_db` to create SQLite database containing some data
 * Removed `use_language` from exported functions, as its functionality is minimal out of its usage context
@@ -112,7 +112,7 @@ this values:
 * Fixed `user_id` value returned by `login_server` function for anonymous users. It is now in form of `paste("Anon", Sys.time(), sep = "_")` to force its reads as `character` object. Before it could be read as `datetime` object while reading from 'googlesheets' database and it caused some bugs
 
 
-# shiny.reglog 0.2.0.0
+# shiny.esreglog 0.2.0.0
 
 * Added a `NEWS.md` file to track changes to the package.
-* Added function to create valid databases for usage of shiny.reglog system: `create_sqlite_db` and `create_gsheet_db`
+* Added function to create valid databases for usage of shiny.esreglog system: `create_sqlite_db` and `create_gsheet_db`

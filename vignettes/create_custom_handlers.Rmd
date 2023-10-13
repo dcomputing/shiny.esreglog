@@ -13,10 +13,10 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 
-library(shiny.reglog)
+library(shiny.esreglog)
 ```
 
-*shiny.reglog* package requires user to create *dbConnector* and *mailConnector*
+*shiny.esreglog* package requires user to create *dbConnector* and *mailConnector*
 for the *RegLogServer* functionality. While creating ShinyApp almost always
 you want to use one database and one emailing procedure. For all usage beyond
 *RegLogServer* defaults, it would be suboptimal to define new connections. That's

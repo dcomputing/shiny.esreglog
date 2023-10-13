@@ -26,7 +26,7 @@ dbConnector <- quote(RegLogMongoConnector$new(
 
 mailConnector <- quote(RegLogConnector$new())
 
-shiny.reglog:::RegLogTest(dbConnector = dbConnector,
+shiny.esreglog:::RegLogTest(dbConnector = dbConnector,
                           mailConnector = mailConnector)
 
 account <- mongolite::mongo(db = mongo_default$db, collection = "account")

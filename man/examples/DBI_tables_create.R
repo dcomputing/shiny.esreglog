@@ -1,4 +1,4 @@
-library(shiny.reglog)
+library(shiny.esreglog)
 
 # create a tenporary SQLite database
 conn <- DBI::dbConnect(

@@ -162,7 +162,7 @@ create_gsheet_db <- function(name = NULL, credentials = NULL, credentials_pass_h
 
 }
 
-#' Function to read SQLite shiny.reglog database
+#' Function to read SQLite shiny.esreglog database
 #' 
 #' @description 
 #' `r lifecycle::badge("deprecated")`
@@ -213,7 +213,7 @@ sqlite_get_db <- function(sqlite_db){
   )
 }
 
-#' Function to read googlesheets shiny.reglog database
+#' Function to read googlesheets shiny.esreglog database
 #' 
 #' @description 
 #' `r lifecycle::badge("deprecated")`

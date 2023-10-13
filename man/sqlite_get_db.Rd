@@ -2,7 +2,7 @@
 % Please edit documentation in R/deprecated_database.R
 \name{sqlite_get_db}
 \alias{sqlite_get_db}
-\title{Function to read SQLite shiny.reglog database}
+\title{Function to read SQLite shiny.esreglog database}
 \usage{
 sqlite_get_db(sqlite_db)
 }

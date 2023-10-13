@@ -1,4 +1,4 @@
-library(shiny.reglog)
+library(shiny.esreglog)
 
 mongo_default <- list(
   url = "mongodb://localhost",
@@ -11,7 +11,7 @@ mongo_tables_create(
   verbose = F
 )
 
-shiny.reglog:::RegLogTest(
+shiny.esreglog:::RegLogTest(
   dbConnector = RegLogMongoConnector$new(
     mongo_url = mongo_default$url,
     mongo_db = mongo_default$db

@@ -1,7 +1,7 @@
 # initialize ShinyApp ####
 library(shinytest2)
 app <- AppDriver$new(
-  system.file("examples", "mongo_app", package = "shiny.reglog")
+  system.file("examples", "mongo_app", package = "shiny.esreglog")
 )
 
 # with mongodb account id is the ID of the account document, generated randomly

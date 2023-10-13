@@ -24,10 +24,10 @@ via built-in *S3* class system.
 in their own environment. Most of **R** users actually uses *R6* objects on
 daily basis: eg. the whole *Shiny* system is built as system of *R6* objects.
 
-Basically, all there is to know about *R6* system in regards to *shiny.reglog*
+Basically, all there is to know about *R6* system in regards to *shiny.esreglog*
 usage is, that:
 
-- all modules available in *shiny.reglog* are *R6* classes:
+- all modules available in *shiny.esreglog* are *R6* classes:
   - *RegLogServer*
   - dbConnectors - which are used by every *RegLogServer* to communicate with
   database containing your user data.
@@ -53,7 +53,7 @@ describe them on basis of their usage. In all code chunks I will refer to them
 as if they would be called from an object assigned as *RegLogServer*:
 
 ```{r setup, include=F}
-library(shiny.reglog)
+library(shiny.esreglog)
 ```
 
 ```{r RegLogServer_assignement_example, eval = F}
@@ -65,7 +65,7 @@ library(shiny.reglog)
 ## State of user in current ShinyApp session
 
 Elements described there are the most important things that every creator of 
-ShinyApp that incorporates *shiny.reglog* should be using to profit from user
+ShinyApp that incorporates *shiny.esreglog* should be using to profit from user
 login. All of them are `reactiveVal` objects, so you can `observe` their changes
 and to access their current value you need to include them with parentheses.
 

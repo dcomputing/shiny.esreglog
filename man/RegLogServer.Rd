@@ -13,7 +13,7 @@ backend of login and registration component of your shinyApp.
 
 if (interactive()) {
   
-  library(shiny.reglog)
+  library(shiny.esreglog)
   
   # for exemplary setup temporary SQLite database will be created
   library("DBI")

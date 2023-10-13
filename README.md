@@ -1,21 +1,21 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# shiny.reglog
+# shiny.esreglog
 
 <!-- badges: start -->
 
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-green.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![CRAN
-status](https://www.r-pkg.org/badges/version/shiny.reglog)](https://CRAN.R-project.org/package=shiny.reglog)
+status](https://www.r-pkg.org/badges/version/shiny.esreglog)](https://CRAN.R-project.org/package=shiny.esreglog)
 [![CRAN
-checks](https://cranchecks.info/badges/worst/shiny.reglog)](https://cranchecks.info/pkgs/shiny.reglog)
-[![](http://cranlogs.r-pkg.org/badges/last-month/shiny.reglog?color=green)](https://cran.r-project.org/package=shiny.reglog)
-[![](http://cranlogs.r-pkg.org/badges/grand-total/shiny.reglog?color=blue)](https://cran.r-project.org/package=shiny.reglog)
+checks](https://cranchecks.info/badges/worst/shiny.esreglog)](https://cranchecks.info/pkgs/shiny.esreglog)
+[![](http://cranlogs.r-pkg.org/badges/last-month/shiny.esreglog?color=green)](https://cran.r-project.org/package=shiny.esreglog)
+[![](http://cranlogs.r-pkg.org/badges/grand-total/shiny.esreglog?color=blue)](https://cran.r-project.org/package=shiny.esreglog)
 [![Codecov test
-coverage](https://codecov.io/gh/StatisMike/shiny.reglog/branch/master/graph/badge.svg)](https://app.codecov.io/gh/StatisMike/shiny.reglog?branch=master)
-[![R-CMD-check](https://github.com/StatisMike/shiny.reglog/workflows/R-CMD-check/badge.svg)](https://github.com/StatisMike/shiny.reglog/actions)
+coverage](https://codecov.io/gh/StatisMike/shiny.esreglog/branch/master/graph/badge.svg)](https://app.codecov.io/gh/StatisMike/shiny.esreglog?branch=master)
+[![R-CMD-check](https://github.com/StatisMike/shiny.esreglog/workflows/R-CMD-check/badge.svg)](https://github.com/StatisMike/shiny.esreglog/actions)
 <!-- badges: end -->
 
 ## 1. Introduction
@@ -36,7 +36,7 @@ This package contains modules to use in your Shiny application allowing
 you to automatically insert boxes for login, register, credentials edit
 and password reset and procedures.
 
-*shiny.reglog* supports as data containers either databases accessed
+*shiny.esreglog* supports as data containers either databases accessed
 with `RSQLite`, `RMariaDB`, `RMySQL` and `RPostgreSQL` drivers or
 googlesheets-based database (accessed by `googlesheets4` package).
 
@@ -49,7 +49,7 @@ expecting big userbase.
 Registration, credentials edit and password reset procedures
 programmatically send email to the user of your ShinyApp - to welcome
 them, inform about change of their user ID and/or email and to give them
-a reset code to reset their password. *shiny.reglog* supports two
+a reset code to reset their password. *shiny.esreglog* supports two
 methods of email sending: via `emayili` or `gmailr` packages. Both of
 them have their pros and cons, depending on your accesses: `emayili`
 allows for usage of many SMTP servers, while `gmailr` allowing using
@@ -66,7 +66,7 @@ mail sending scope.
 
 ## 2. Additional information
 
-Basic information about *shiny.reglog* is contained within this
+Basic information about *shiny.esreglog* is contained within this
 document. There are some more resources to learn about its usage:
 
 -   You can access demonstration shinyApp with showcase mode on
@@ -96,15 +96,15 @@ need to be defined in the *server* code.
 
 ## 4. Installation
 
-You can install this version of shiny.reglog from GitHub with:
+You can install this version of shiny.esreglog from GitHub with:
 
 ``` r
 # install last stable release from CRAN
-install.packages("shiny.reglog")
+install.packages("shiny.esreglog")
 
 ## or development version from GitHub
 install.packages("devtools")
-devtools::install.github("StatisMike/shiny.reglog")
+devtools::install.github("StatisMike/shiny.esreglog")
 ```
 
 ## 5. Setting up *dbConnector*

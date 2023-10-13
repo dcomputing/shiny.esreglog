@@ -1,4 +1,4 @@
-library(shiny.reglog)
+library(shiny.esreglog)
 
 googlesheets4::gs4_auth(email = Sys.getenv("G_SERVICE_MAIL"),
                         path = Sys.getenv("G_SERVICE_ACCOUNT"),
@@ -13,7 +13,7 @@ tryCatch(
 
 gsheet_tables_create(gsheet_ss = Sys.getenv("REGLOG_SHEET"))
 
-shiny.reglog:::RegLogTest(
+shiny.esreglog:::RegLogTest(
   dbConnector = RegLogGsheetConnector$new(
     gsheet_ss = Sys.getenv("REGLOG_SHEET")
   ),

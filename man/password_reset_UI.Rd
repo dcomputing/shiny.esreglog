@@ -14,7 +14,7 @@ password_reset_UI(id = "login_system", lang = "en", custom_txts = NULL)
 \item{custom_txts}{named list containing customized texts. For more details,
 see documentation for 'reglog_txt'. Provided list can contain only elements
 used by this function, but it is recommended to provide the same list for
-every 'shiny.reglog' function}
+every 'shiny.esreglog' function}
 }
 \value{
 'tags$div' containing all elements for password reset procedure

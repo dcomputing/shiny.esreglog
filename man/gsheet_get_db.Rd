@@ -2,7 +2,7 @@
 % Please edit documentation in R/deprecated_database.R
 \name{gsheet_get_db}
 \alias{gsheet_get_db}
-\title{Function to read googlesheets shiny.reglog database}
+\title{Function to read googlesheets shiny.esreglog database}
 \usage{
 gsheet_get_db(gsheet_db)
 }

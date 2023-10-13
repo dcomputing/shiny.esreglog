@@ -4,7 +4,7 @@ skip_on_cran()
 # initialize ShinyApp ####
 
 app <- AppDriver$new(
-  system.file("examples", "gsheet_app", package = "shiny.reglog")
+  system.file("examples", "gsheet_app", package = "shiny.esreglog")
 )
 
 ## new account register checks ####

@@ -1,6 +1,6 @@
 library(testthat)
 library(shinytest2)
-library(shiny.reglog)
+library(shiny.esreglog)
 
 app_wait <- function(app,
                      time = 1000) {
@@ -9,4 +9,4 @@ app_wait <- function(app,
   app$.__enclos_env__$private$shiny_process$wait(timeout = time)
 }
 
-test_check("shiny.reglog")
+test_check("shiny.esreglog")

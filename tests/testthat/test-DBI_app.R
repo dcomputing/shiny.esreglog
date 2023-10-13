@@ -23,7 +23,7 @@ non_valid_pass <- c(
 # initialize ShinyApp ####
 
 app <- AppDriver$new(
-  system.file("examples", "SQLite_app", package = "shiny.reglog")
+  system.file("examples", "SQLite_app", package = "shiny.esreglog")
 )
 
 ## new account register checks ####
