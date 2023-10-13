@@ -177,6 +177,7 @@ RegLogServer_listener <- function(
                 self$user_id(received_message$data$user_id)
                 self$user_mail(received_message$data$user_mail)
                 self$permissions(received_message$data$permissions)
+                self$studies_table(received_message$data$studies_table)
                 self$is_logged_microsoft(received_message$data$is_logged_microsoft)
               }
             },
