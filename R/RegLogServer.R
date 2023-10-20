@@ -36,6 +36,8 @@ RegLogServer <- R6::R6Class(
     companies_table = NULL,
     #' @field studies_table table of all studies
     studies_table = NULL,
+    #' @field disabled_dashboard_table table of dashboards to be temporarily disabled
+    disabled_dashboard_table = NULL,
     #' @field account_id reactiveVal caintaining integer specifying the logged 
     #' user account's id number: for SQL database it is equal to the value
     #' contained withing `id` variable. For googlesheets database it is equal to

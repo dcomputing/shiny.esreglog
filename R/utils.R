@@ -181,3 +181,8 @@ getAllStudies <- function(conn) {
                     from studies INNER JOIN companies ON companies.id = studies.company_id"
   DBI::dbGetQuery(conn, getStudiesSql)
 }
+
+getDisabledDashboards <- function(conn) {
+  getDisabledDashboardsSql <- "SELECT * from disabled_dashboards"
+  DBI::dbGetQuery(conn, getDisabledDashboardsSql)
+}

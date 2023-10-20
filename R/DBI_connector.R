@@ -127,6 +127,7 @@ RegLogDBIConnector = R6::R6Class(
       self$handlers[["addStudy"]] <- DBI_add_study_handler
       self$handlers[["editStudy"]] <- DBI_edit_study_handler
       self$handlers[["delStudy"]] <- DBI_del_study_handler
+      self$handlers[["adjustDisabledDashboards"]] <- DBI_adjust_disableddashboards_handler
       
       super$initialize(custom_handlers = custom_handlers)
       # store the arguments internally

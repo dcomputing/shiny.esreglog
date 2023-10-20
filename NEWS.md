@@ -1,3 +1,8 @@
+# shiny.esreglog 0.5.2
+
+- added EffectStats specific tables and code related to those tables
+- name change to prevent any accidental overwrite of library by an updated shiny.reglog package
+
 # shiny.esreglog 0.5.1
 
 - added experimental `RegLogMongoConnector` - connector to mongodb database

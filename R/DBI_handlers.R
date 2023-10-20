@@ -14,6 +14,7 @@ DBI_get_all_permissions_handler <- function(self, private, message){
   allPermissions <- getAllPermissions(private$db_conn)
   companiesTable <- getAllCompanies(private$db_conn)
   studiesTable <- getAllStudies(private$db_conn)
+  disabledDashboardTable <- getDisabledDashboards(private$db_conn)
   
   RegLogConnectorMessage(
     "getAllPermissions", success = TRUE, 
@@ -22,7 +23,8 @@ DBI_get_all_permissions_handler <- function(self, private, message){
     all_studies = allStudies,
     all_users = allUsers,
     companies_table = companiesTable,
-    studies_table = studiesTable
+    studies_table = studiesTable,
+    disabled_dashboard_table = disabledDashboardTable
   )
 }
 
@@ -389,6 +391,72 @@ DBI_del_study_handler <- function(self, private, message) {
   return(messageToReturn)
 }
 
+DBI_adjust_disableddashboards_handler <- function(self, private, message) {
+  check_namespace("DBI")
+  private$db_check_n_refresh()
+  on.exit(private$db_disconnect())
+  
+  #set up the 'message to return' ahead of time so we don't need to repeat this code later
+  messageToReturn <- RegLogConnectorMessage(
+    message$type,
+    success = TRUE,
+    logcontent = paste0("Dashboard: ", message$data$dashBoard, " of ", message$data$studyCode, " ", message$data$dashAction, " by ", 
+                        message$data$username, "/",
+                        message$data$email,
+                        " succeeded")
+  )
+  
+  studyCode <- message$data$studyCode
+  dashBoard <- message$data$dashBoard
+  action <- message$data$dashAction
+  if (action == "Disable") {
+  
+  addDisabledDashboardSql <- paste0(
+    "INSERT INTO disabled_dashboards (studycode, dashboard) ",
+    "VALUES(?study_code, ?dash_board)"
+  )
+  addDisabledDashboardStmt <- DBI::sqlInterpolate(private$db_conn,
+                                                  addDisabledDashboardSql,
+                                                  study_code = studyCode,
+                                                  dash_board = dashBoard)
+  tryCatch({
+    DBI::dbExecute(private$db_conn, addDisabledDashboardStmt)
+  }, error = function(error){
+    # need the <<- because changing variables in the outer scope do not "stick" here inside the catch (For some reason changes do stick in the try).
+    messageToReturn$data$success <<- FALSE
+    messageToReturn$logcontent <<- paste0("Failed to ", action, " study: ", studyCode, " ", dashBoard, " dashboard by ",
+                                          message$data$username, "/",
+                                          message$data$email, ": ",
+                                          " Error: ", paste(error, collapse = ";"))
+    print(error)
+  })
+  } else {
+  
+  delDisabledDashboardSql <- paste0(
+    "DELETE FROM disabled_dashboards WHERE studycode = ?study_code AND dashboard = ?dash_board"
+  )
+  delDisabledDashboardStmt <- DBI::sqlInterpolate(private$db_conn,
+                                                  delDisabledDashboardSql,
+                                                  study_code = studyCode,
+                                                  dash_board = dashBoard)
+  tryCatch({
+    DBI::dbExecute(private$db_conn, delDisabledDashboardStmt)
+  }, error = function(error){
+    # need the <<- because changing variables in the outer scope do not "stick" here inside the catch (For some reason changes do stick in the try).
+    messageToReturn$data$success <<- FALSE
+    messageToReturn$logcontent <<- paste0("Failed to ", action, " study: ", studyCode, " ", dashBoard, " dashboard by ",
+                                          message$data$username, "/",
+                                          message$data$email, ": ",
+                                          " Error: ", paste(error, collapse = ";"))
+    print(error)
+  })
+  }
+  messageToReturn$data$studies_table <- getAllStudies(private$db_conn)
+  messageToReturn$data$disabled_dashboard_table <- getDisabledDashboards(private$db_conn)
+  return(messageToReturn)
+  
+}
+
 DBI_login_with_microsoft_handler <- function(self, private, message) {
   
   check_namespace("DBI")
@@ -422,12 +490,14 @@ DBI_login_with_microsoft_handler <- function(self, private, message) {
   
     permissions <- getUserPermissions(user_data$id, private$db_conn)
     studies_table <- getAllStudies(private$db_conn)
+    disabled_dashboard_table <- getDisabledDashboards(private$db_conn)
 
     # return login success message so that RegLogServer_listener will handle the login process (see line 68 where it receives the message)
     RegLogConnectorMessage(
       "login", success = TRUE, username = TRUE, password = TRUE, is_logged_microsoft = TRUE,
       permissions = permissions,
       studies_table = studies_table,
+      disabled_dashboard_table = disabled_dashboard_table,
       user_id = user_data$username,
       user_mail = tolower(user_data$email),
       account_id = user_data$id,
@@ -479,6 +549,7 @@ DBI_login_handler <- function(self, private, message) {
       
       permissions <- getUserPermissions(user_data$id, private$db_conn)
       studies_table <- getAllStudies(private$db_conn)
+      disabled_dashboard_table <- getDisabledDashboards(private$db_conn)
       
       RegLogConnectorMessage(
         "login", success = TRUE, username = TRUE, password = TRUE, is_logged_microsoft = TRUE,
@@ -487,6 +558,7 @@ DBI_login_handler <- function(self, private, message) {
         account_id = user_data$id,
         permissions = permissions,
         studies_table = studies_table,
+        disabled_dashboard_table = disabled_dashboard_table,
         logcontent = paste(message$data$username, "logged in")
       )
       

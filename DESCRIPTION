@@ -1,12 +1,11 @@
 Package: shiny.esreglog
 Title: Optional Login and Registration Module System for ShinyApps (edited)
-Version: 0.5.2-1
+Version: 0.5.2-3
 Authors@R: 
-    person(given = "Michal",
-           family = "Kosinski",
+    person(given = "Christopher",
+           family = "Chan",
            role = c("aut", "cre"),
-           email = "kosinski.mich@gmail.com",
-           comment = c(ORCID = "https://orcid.org/0000-0002-8426-3654"))
+           email = "diverse.computing@gmail.com")
 Description: RegLog system provides a set of shiny modules to handle register
    procedure for your users, alongside with login, edit credentials and
    password reset functionality. 
@@ -53,4 +52,4 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
 VignetteBuilder: knitr
 Config/testthat/edition: 3
-URL: https://statismike.github.io/shiny.esreglog/
+URL: https://github.com/dcomputing/shiny.esreglog

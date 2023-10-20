@@ -85,6 +85,7 @@ RegLogServer_listener <- function(
               self$all_users(received_message$data$all_users)
               self$companies_table(received_message$data$companies_table)
               self$studies_table(received_message$data$studies_table)
+              self$disabled_dashboard_table(received_message$data$disabled_dashboard_table)
               self$message(received_message)
             },
             
@@ -150,6 +151,12 @@ RegLogServer_listener <- function(
               self$message(received_message)
             },
             
+            adjustDisabledDashboards = {
+              self$all_studies(received_message$data$all_studies)
+              self$disabled_dashboard_table(received_message$data$disabled_dashboard_table)
+              self$message(received_message)
+            },
+            
             ## login messages reactions ####
             login = {
               # if couldn't log in
@@ -178,6 +185,7 @@ RegLogServer_listener <- function(
                 self$user_mail(received_message$data$user_mail)
                 self$permissions(received_message$data$permissions)
                 self$studies_table(received_message$data$studies_table)
+                self$disabled_dashboard_table(received_message$data$disabled_dashboard_table)
                 self$is_logged_microsoft(received_message$data$is_logged_microsoft)
               }
             },
