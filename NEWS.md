@@ -1,3 +1,7 @@
+# shiny.esreglog 0.5.4
+
+- DBI handler of plain login was setting is_logged_microsoft to TRUE which it should not
+
 # shiny.esreglog 0.5.2
 
 - added EffectStats specific tables and code related to those tables

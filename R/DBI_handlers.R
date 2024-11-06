@@ -552,7 +552,7 @@ DBI_login_handler <- function(self, private, message) {
       disabled_dashboard_table <- getDisabledDashboards(private$db_conn)
       
       RegLogConnectorMessage(
-        "login", success = TRUE, username = TRUE, password = TRUE, is_logged_microsoft = TRUE,
+        "login", success = TRUE, username = TRUE, password = TRUE, is_logged_microsoft = FALSE,
         user_id = user_data$username,
         user_mail = tolower(user_data$email),
         account_id = user_data$id,
