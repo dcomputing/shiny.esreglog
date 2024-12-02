@@ -117,6 +117,7 @@ RegLogDBIConnector = R6::R6Class(
       self$handlers[["register"]] <- DBI_register_handler
       self$handlers[["credsEdit"]] <- DBI_credsEdit_handler
       self$handlers[["resetPass_generate"]] <- DBI_resetPass_generation_handler
+      self$handlers[["resetPass_codevalidation"]] <- DBI_resetPass_codevalidation_handler
       self$handlers[["resetPass_confirm"]] <- DBI_resetPass_confirmation_handler
       self$handlers[["loginWithMicrosoft"]] <- DBI_login_with_microsoft_handler
       self$handlers[["getAllPermissions"]] <- DBI_get_all_permissions_handler

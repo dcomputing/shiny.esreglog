@@ -1,3 +1,9 @@
+# shiny.esreglog 0.5.5
+
+Change how the process of password reset is handled. Instead of presenting all
+fields, break down the process into reset code validation after which password
+change is effected
+
 # shiny.esreglog 0.5.4
 
 - DBI handler of plain login was setting is_logged_microsoft to TRUE which it should not

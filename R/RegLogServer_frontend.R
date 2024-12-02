@@ -125,7 +125,7 @@ RegLogServer_frontend <- function(
       observe(
         self$UI_list_resetPass <- list(
           title = h1(RegLog_txt(lang = private$lang, custom_txts = private$custom_txts, x ="reset_ui_1")),
-          desc1 = p(RegLog_txt(lang = private$lang, custom_txts = private$custom_txts, x ="reset_ui_2")),
+          desc1 = p(id = session$ns("reset_instructions"),RegLog_txt(lang = private$lang, custom_txts = private$custom_txts, x ="reset_ui_2")),
           user_ID = textInput(
             session$ns("reset_user_ID"),
             label = RegLog_txt(lang = private$lang, custom_txts = private$custom_txts, x ="user_id")
@@ -134,22 +134,31 @@ RegLogServer_frontend <- function(
             session$ns("reset_send"),
             label = RegLog_txt(lang = private$lang, custom_txts = private$custom_txts, x ="reset_bttn_1"),
             class = "reglog_bttn"),
-          desc2 = p(RegLog_txt(lang = private$lang, custom_txts = private$custom_txts, x ="reset_ui_3")),
+          hidden(desc2 = p(id = session$ns("code_instructions"), RegLog_txt(lang = private$lang, custom_txts = private$custom_txts, x ="reset_ui_3")),
           reset_code = textInput(
             session$ns("reset_code"),
             label = RegLog_txt(lang = private$lang, custom_txts = private$custom_txts, x ="reset_ui_4")),
-          desc_pass = p(
-            RegLog_txt(lang = private$lang, custom_txts = private$custom_txts, x = "reset_ui_p_pass_change")),
-          newpass1_input = passwordInput(
-            session$ns("reset_pass1"),
-            label = RegLog_txt(lang = private$lang, custom_txts = private$custom_txts, x = "password")),
-          newpass2_input = passwordInput(
-            session$ns("reset_pass2"),
-            label = RegLog_txt(lang = private$lang, custom_txts = private$custom_txts, x = "password_rep")),
           confirm_code_bttn = actionButton(
             session$ns("reset_confirm_bttn"),
             label = RegLog_txt(lang = private$lang, custom_txts = private$custom_txts, x ="reset_bttn_2"),
             class = "reglog_bttn"
+          )),
+          
+          desc_pass = p(id = session$ns("passwd_instructions"),
+            RegLog_txt(lang = private$lang, custom_txts = private$custom_txts, x = "reset_ui_p_pass_change")),
+          hidden(newpass1_input = passwordInput(session$ns("reset_pass1"),
+                                                label = RegLog_txt(lang = private$lang,
+                                                custom_txts = private$custom_txts,
+                                                x = "password")),
+                  newpass2_input = passwordInput(session$ns("reset_pass2"),
+                                                 label = RegLog_txt(lang = private$lang,
+                                                 custom_txts = private$custom_txts,
+                                                 x = "password_rep")),
+          change_password_bttn = actionButton(
+            session$ns("change_password_bttn"),
+            label = RegLog_txt(lang = private$lang, custom_txts = private$custom_txts, x ="reset_bttn_3"),
+            class = "reglogchpw_bttn"
+          )
           )
         )
       )

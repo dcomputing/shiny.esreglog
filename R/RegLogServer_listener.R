@@ -298,20 +298,56 @@ RegLogServer_listener <- function(
               }
             },
             
+            # reset password code validation reactions ####
+            
+            resetPass_codevalidation = {
+              # if reset code was valid
+              if (received_message$data$success) {
+                modals_check_n_show(private, "resetPass_codeValidated")
+                shinyjs::show(id="reset_pass1")
+                shinyjs::show(id="reset_pass2")
+                shinyjs::show(id="change_password_bttn")
+                shinyjs::show(id="passwd_instructions")
+                shinyjs::hide(id="reset_code")
+                shinyjs::hide(id="reset_confirm_bttn")
+                shinyjs::hide(id="reset_send")
+                shinyjs::hide(id="reset_user_ID")
+                shinyjs::hide(id="code_instructions")
+                shinyjs::hide(id="reset_instructions")
+              } else {
+                modals_check_n_show(
+                  private = private,
+                  modalname = if (isFALSE(received_message$data$username)) "resetPass_badId"
+                  else if (isFALSE(received_message$data$code_valid)) "resetPass_invalidCode"
+                )
+              }
+            },
+            
             # reset password confirmation messages reactions ####
 
             resetPass_confirm = {
-              # if reset code was valid
+              # if password change was successful
               if (received_message$data$success) {
 
                 modals_check_n_show(private, "resetPass_success")
+                blank_textInputs(c("reset_user_ID", "reset_code", 
+                                                     "reset_pass1", "reset_pass2"), 
+                                                    session = session)
+                shinyjs::hide(id="reset_pass1")
+                shinyjs::hide(id="reset_pass2")
+                shinyjs::hide(id="change_password_bttn")
+                shinyjs::hide(id="passwd_instructions")
+                shinyjs::show(id="reset_user_ID")
+                shinyjs::show(id="reset_instructions")
+                shinyjs::show(id="reset_send")
+                shinyjs::runjs("$('.reglog_bttn').attr('disabled', true)")
 
               } else {
                 #if not successful
                 modals_check_n_show(
                   private = private,
                   modalname = if (isFALSE(received_message$data$username)) "resetPass_badId"
-                         else if (isFALSE(received_message$data$code_valid)) "resetPass_nonValidCode"
+                         else if (isFALSE(received_message$data$code_valid)) "resetPass_invalidCode"
                 )
               }
             }

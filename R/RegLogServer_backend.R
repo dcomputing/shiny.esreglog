@@ -360,16 +360,63 @@ RegLogServer_backend <- function(
           )
           
           shinyjs::runjs("$('.reglog_bttn').attr('disabled', true)") 
-          
-          blank_textInputs("reset_user_ID", session = session)
+          shinyjs::show(id="code_instructions")
+          shinyjs::show(id="reset_code")
+          shinyjs::show(id="reset_confirm_bttn")
+          shinyjs::hide(id="reset_instructions")
+          shinyjs::hide(id="reset_user_ID")
+          shinyjs::hide(id="reset_send")
+          #blank_textInputs("reset_user_ID", session = session)
           
           self$dbConnector$listener(message_to_send)
           save_to_logs(message_to_send, "sent", self, session)
         }
       })
       
-      # resetPass confirm observer ####
+      # resetPass validation confirm observer ####
       observeEvent(input$reset_confirm_bttn, {
+        
+        on.exit({
+          self$message(message_to_show)
+          save_to_logs(message_to_show, "shown", self, session)
+        })
+        
+        # check if the inputs are filled
+        if (!all(isTruthy(input$reset_user_ID), isTruthy(input$reset_code)
+#                 isTruthy(input$reset_pass1), isTruthy(input$reset_pass2))) {
+                 )) {
+          
+          modals_check_n_show(private, "resetPass_noInput_confirm")
+          message_to_show <- RegLogConnectorMessage(
+            "resetPass_front",
+            success = FALSE,
+            step = "confirm",
+            input_provided = FALSE
+          )
+          
+        } else {
+          
+          on.exit({
+            self$dbConnector$listener(message_to_send)
+            save_to_logs(message_to_send, "sent", self, session)
+          })
+          
+          message_to_send <- RegLogConnectorMessage(
+            "resetPass_codevalidation",
+            username = input$reset_user_ID,
+            reset_code = input$reset_code
+            #password = input$reset_pass1
+          )
+          
+          #blank_textInputs(c("reset_user_ID", "reset_code", 
+           #                  "reset_pass1", "reset_pass2"), 
+          #                 session = session)
+          
+          #shinyjs::runjs("$('.reglog_bttn').attr('disabled', true)")
+        }
+      })
+      
+      observeEvent(input$change_password_bttn, {
         
         on.exit({
           self$message(message_to_show)
@@ -384,7 +431,7 @@ RegLogServer_backend <- function(
           message_to_show <- RegLogConnectorMessage(
             "resetPass_front",
             success = FALSE,
-            step = "confirm",
+            step = "change",
             input_provided = FALSE
           )
           
@@ -399,7 +446,7 @@ RegLogServer_backend <- function(
           message_to_show <- RegLogConnectorMessage(
             "resetPass_front",
             success = FALSE,
-            step = "confirm",
+            step = "change",
             input_provided = TRUE,
             valid_pass = check_user_pass(input$reset_pass1),
             identical_pass = input$reset_pass1 == input$reset_pass2
@@ -422,11 +469,11 @@ RegLogServer_backend <- function(
             password = input$reset_pass1
           )
           
-          blank_textInputs(c("reset_user_ID", "reset_code", 
-                             "reset_pass1", "reset_pass2"), 
-                           session = session)
+          #blank_textInputs(c("reset_user_ID", "reset_code", 
+          #                   "reset_pass1", "reset_pass2"), 
+          #                 session = session)
           
-          shinyjs::runjs("$('.reglog_bttn').attr('disabled', true)")
+          #shinyjs::runjs("$('.reglog_bttn').attr('disabled', true)")
         }
       })
     }

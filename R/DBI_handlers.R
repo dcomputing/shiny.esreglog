@@ -853,6 +853,82 @@ DBI_resetPass_generation_handler <- function(self, private, message) {
   
 }
 
+#' DBI resetpass code validation handler
+#' 
+#' @description Default handler function querying database to confirm credentials
+#' validate reset code and update values saved within database. Used within object of 
+#' `RegLogDBIConnector` class internally.
+#' @param self R6 object element
+#' @param private R6 object element
+#' @param message RegLogConnectorMessage which need to contain within its data:
+#' - username
+#' - reset_code
+#' 
+#' @family DBI handler functions
+#' @concept DBI_handler
+#' @keywords internal
+
+DBI_resetPass_codevalidation_handler <- function(self, private, message) {
+  
+  check_namespace("DBI")
+  
+  private$db_check_n_refresh()
+  on.exit(private$db_disconnect())
+  
+  sql <- paste0("SELECT * FROM ", private$db_tables[1], " WHERE username = ?;")
+  query <- DBI::sqlInterpolate(private$db_conn, sql, message$data$username)
+  
+  user_data <- DBI::dbGetQuery(private$db_conn, query)
+  
+  # check condition and create output message accordingly
+  
+  if (nrow(user_data) == 0) {
+    # if don't return any, then nothing happened
+    
+    message_to_send <- RegLogConnectorMessage(
+      "resetPass_codevalidation", success = FALSE, username = FALSE, code_valid = FALSE,
+      logcontent = paste(message$data$username, "don't exist")
+    )
+    
+    # if username exists, check for the resetcode
+  } else {
+    
+    sql <- paste0("SELECT * FROM ", private$db_tables[2], 
+                  # matching reset code is found for this user_id
+                  " WHERE user_id = ?user_id AND reset_code = ?reset_code",
+                  # reset code is not used already
+                  " AND used = 0;")
+    
+    query <- DBI::sqlInterpolate(private$db_conn, sql,
+                                 user_id = user_data$id,
+                                 reset_code = message$data$reset_code)
+    
+    reset_code_data <- DBI::dbGetQuery(private$db_conn, query)
+    
+    not_expired <- 
+      (lubridate::as_datetime(reset_code_data$create_time) + lubridate::period(4, "hours")) > Sys.time()
+    
+    # if not used reset code matches and isn't expired, update the database
+    if (nrow(reset_code_data) > 0 && not_expired) {
+      
+      message_to_send <- RegLogConnectorMessage(
+        "resetPass_codevalidation", success = TRUE, username = TRUE, code_valid = TRUE,
+        logcontent = paste(message$data$username, "confirmed")
+      )
+      # if reset code wasn't valid
+    } else {
+      
+      message_to_send <- RegLogConnectorMessage(
+        "resetPass_confirm", success = FALSE, username = TRUE, code_valid = FALSE,
+        logcontent = paste(message$data$username, "invalid code")
+      )
+    }
+  }
+  
+  return(message_to_send)
+  
+}
+
 #' DBI resetpass code confirmation handler
 #' 
 #' @description Default handler function querying database to confirm credentials
@@ -930,7 +1006,7 @@ DBI_resetPass_confirmation_handler <- function(self, private, message) {
       query <- DBI::sqlInterpolate(private$db_conn, sql,
                                    update_time = db_timestamp(),
                                    reset_code_id = reset_code_data$id[1])
-
+      
       DBI::dbExecute(private$db_conn, query)
       
       message_to_send <- RegLogConnectorMessage(
