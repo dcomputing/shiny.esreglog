@@ -1,3 +1,7 @@
+# shiny.esreglog 0.5.6
+
+Allowed server to specify a username rather than always using the email as the username for users who sign in with Microsoft.
+
 # shiny.esreglog 0.5.5
 
 Change how the process of password reset is handled. Instead of presenting all
