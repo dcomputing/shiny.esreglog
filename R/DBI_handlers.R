@@ -472,16 +472,19 @@ DBI_login_with_microsoft_handler <- function(self, private, message) {
   if (nrow(user_data) == 0) {
     #if return no rows, then this is a new user; create an account for him.
     
-    insertSql <- paste0("INSERT INTO ", private$db_tables[1],
-                  " (username, password, email, create_time, update_time)",
-                  " VALUES (?username, ?password, ?email, ?create_time, ?create_time)")
-    insertQuery <- DBI::sqlInterpolate(private$db_conn, insertSql, 
-                                 username = message$data$email, # username will just be their email
-                                 password = scrypt::hashPassword(getRandomString()), # create a random password that they can reset later if they want to log in through the normal, non-Microsoft way
-                                 email = tolower(message$data$email),
-                                 create_time = db_timestamp())
-    
-    DBI::dbExecute(private$db_conn, insertQuery)
+    tryCatch({
+      insertMicrosoftUser(private, message$data$username, message$data$email)
+      message("User inserted successfully.")
+    }, error = function(e) {
+      if (grepl("UNIQUE constraint failed", e$message)) {
+        message("Error: The username must be unique.")
+        uniqueUsername <- paste0(message$data$username, "_", sample(9999, 1, TRUE))
+        insertMicrosoftUser(private, uniqueUsername, message$data$email)
+        message("Re-inserted user with a different username.")
+      } else {
+        message("An unexpected error occurred: ", e$message)
+      }
+    })
     
     # after creating the user get user data.
     user_data <- DBI::dbGetQuery(private$db_conn, getQuery)
@@ -1025,4 +1028,17 @@ DBI_resetPass_confirmation_handler <- function(self, private, message) {
   
   return(message_to_send)
   
+}
+
+#' @description private method to create a user in the database for someone who signed in for first time with Microsoft
+insertMicrosoftUser <- function(private, username, email) {
+  insertSql <- paste0("INSERT INTO ", private$db_tables[1],
+                      " (username, password, email, create_time, update_time)",
+                      " VALUES (?username, ?password, ?email, ?create_time, ?create_time)")
+  insertQuery <- DBI::sqlInterpolate(private$db_conn, insertSql, 
+                                     username = username,
+                                     password = scrypt::hashPassword(getRandomString()), # create a random password that they can reset later if they want to log in through the normal, non-Microsoft way
+                                     email = tolower(email),
+                                     create_time = db_timestamp())
+  DBI::dbExecute(private$db_conn, insertQuery)
 }
