@@ -117,7 +117,7 @@ RegLogServer_listener <- function(
             },
 
             adjustUserAsAdmin = {
-              if (received_message$data$userAction == "Enable") {
+              if (received_message$data$action == "Enable") {
                 if (received_message$data$success) {
                   modals_check_n_show(private = private,
                                       modalname = "setUserAsAdmin_success")
@@ -125,7 +125,7 @@ RegLogServer_listener <- function(
                   modals_check_n_show(private = private,
                                       modalname = "setUserAsAdmin_fail")
                 }
-              } else if (received_message$data$userAction == "Disable") {
+              } else if (received_message$data$action == "Disable") {
                 if (received_message$data$success) {
                   modals_check_n_show(private = private,
                                       modalname = "removeUserAsAdmin_success")
@@ -139,11 +139,6 @@ RegLogServer_listener <- function(
               self$message(received_message)
             },
 
-            removeUserAdAdmin = {
-              self$all_users(received_message$data$all_users)
-              self$message(received_message)
-            },
-            
             addCompany = {
               self$companies_table(received_message$data$companies_table)
               self$all_companies(received_message$data$all_companies)

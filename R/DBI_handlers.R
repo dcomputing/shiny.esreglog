@@ -114,6 +114,7 @@ DBI_adjust_user_admin_handler <- function(self, private, message) {
   messageToReturn <- RegLogConnectorMessage(
     message$type,
     success = TRUE,
+    action = message$data$userAction,
     logcontent = paste0(message$data$userAction, " ", message$data$userAName, " as admin by ", 
                         message$data$username, "/",
                         message$data$email,
@@ -632,6 +633,18 @@ DBI_login_handler <- function(self, private, message) {
       permissions <- getUserPermissions(user_data$id, private$db_conn)
       studies_table <- getAllStudies(private$db_conn)
       disabled_dashboard_table <- getDisabledDashboards(private$db_conn)
+
+      # update last login time
+
+      update_last_login_sql <- paste0("UPDATE ", private$db_tables[1],
+                                      " SET last_login = ?last_login WHERE id = ?id;") # nolint: line_length_linter.
+
+      update_last_login_query <- DBI::sqlInterpolate(private$db_conn,
+                                                     update_last_login_sql,
+                                                     last_login = db_timestamp(), # nolint: line_length_linter.
+                                                     id = user_data$id)
+
+      DBI::dbExecute(private$db_conn, update_last_login_query)
       
       RegLogConnectorMessage(
         "login", success = TRUE, username = TRUE, password = TRUE, is_logged_microsoft = FALSE,

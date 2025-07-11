@@ -140,6 +140,10 @@ getUserPermissions <- function(userId, conn){
   DBI::dbGetQuery(conn, getUserPermissionQuery)
 }
 
+getAllUsers <- function(conn) {
+  getUsersSql <- "SELECT * FROM users"
+  DBI::dbGetQuery(conn, getUsersSql)
+}
 
 getAllPermissions <- function(conn) {
   getPermissionsSql <- "SELECT permissions.id AS Id, users.username AS Username, studies.code AS Study FROM permissions 

@@ -46,6 +46,15 @@ RegLog_txts$en = list(
   permission_revoke_success_b = "Permission revoked for user",
   permission_revoke_fail_t = "Error",
   permission_revoke_fail_b = "Permission was not revoked for user. Please check if this is a valid action.",
+  ### admin modals ####
+  setUserAsAdmin_success_t = "User set as admin",
+  setUserAsAdmin_success_b = "User has been set as admin successfully.",
+  setUserAsAdmin_fail_t = "Error",
+  setUserAsAdmin_fail_b = "User has not been set as admin. Please check if this is a valid action.",
+  removeUserAsAdmin_success_t = "User removed from admin",
+  removeUserAsAdmin_success_b = "User has been removed from admin successfully.",
+  removeUserAsAdmin_fail_t = "Error",
+  removeUserAsAdmin_fail_b = "User has not been removed from admin. Please check if this is a valid action.",
   ### login modals ####
   login_noInput_t = "Missing data",
   login_noInput_b = "To login, please provide your username and password.",
