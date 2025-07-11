@@ -104,6 +104,72 @@ DBI_adjust_permissions_handler <- function(self, private, message){
   return(messageToReturn)
 }
 
+DBI_adjust_user_admin_handler <- function(self, private, message) {
+  check_namespace("DBI")
+  private$db_check_n_refresh()
+  on.exit(private$db_disconnect())
+
+  userId <- getUserIdFromUsername(private$db_conn, message$data$userAName)
+
+  messageToReturn <- RegLogConnectorMessage(
+    message$type,
+    success = TRUE,
+    logcontent = paste0(message$data$userAction, " ", message$data$userAName, " as admin by ", 
+                        message$data$username, "/",
+                        message$data$email,
+                        " succeeded")
+  )
+
+  if (message$data$userAction == "Enable") {
+
+    set_user_as_admin_sql <- paste0(
+      "UPDATE users SET is_admin = 1 WHERE id = ?user_id"
+    )
+
+    set_user_as_admin_stmt <- DBI::sqlInterpolate(private$db_conn,
+                                                set_user_as_admin_sql,
+                                                user_id = userId)
+
+    tryCatch({
+      DBI::dbExecute(private$db_conn, set_user_as_admin_stmt)
+    },
+    error = function(error){
+      # need the <<- because changing variables in the outer scope do not "stick" here inside the catch (For some reason changes do stick in the try).
+      messageToReturn$data$success <<- FALSE
+      messageToReturn$logcontent <<- paste0(message$data$userAction, " ", userId, " as admin by ",
+                                          message$data$username, "/",
+                                          message$data$email, ": ",
+                                          " Error: ", paste(error, collapse = ";"))
+      print(error)
+    })
+  } else if (message$data$userAction == "Disable") {
+
+    remove_user_as_admin_sql <- paste0(
+      "UPDATE users SET is_admin = 0 WHERE id = ?user_id"
+    )
+
+    remove_user_as_admin_stmt <- DBI::sqlInterpolate(private$db_conn,
+                                                remove_user_as_admin_sql,
+                                                user_id = userId)
+
+    tryCatch({
+      DBI::dbExecute(private$db_conn, remove_user_as_admin_stmt)
+    },
+    error = function(error){
+      # need the <<- because changing variables in the outer scope do not "stick" here inside the catch (For some reason changes do stick in the try).
+      messageToReturn$data$success <<- FALSE
+      messageToReturn$logcontent <<- paste0(message$data$userAction, " ", userId, " as admin by ",
+                                          message$data$username, "/",
+                                          message$data$email, ": ",
+                                          " Error: ", paste(error, collapse = ";"))
+      print(error)
+    })
+  }
+  messageToReturn$data$all_users <- getAllUsers(private$db_conn)
+  return(messageToReturn)
+}
+
+
 DBI_add_company_handler <- function(self, private, message) {
   check_namespace("DBI")
   private$db_check_n_refresh()
@@ -359,7 +425,7 @@ DBI_del_study_handler <- function(self, private, message) {
   messageToReturn <- RegLogConnectorMessage(
     message$type,
     success = TRUE,
-    logcontent = paste0("Study: ", message$data$studyCode, " deleted by ", 
+    logcontent = paste0("Study: ", message$data$studyCode, " deleted by ",
                         message$data$username, "/",
                         message$data$email,
                         " succeeded")
@@ -375,11 +441,13 @@ DBI_del_study_handler <- function(self, private, message) {
   )
   tryCatch({
     DBI::dbExecute(private$db_conn, delStudyStmt)
-  }, 
-  error = function(error){
-    # need the <<- because changing variables in the outer scope do not "stick" here inside the catch (For some reason changes do stick in the try).
+  },
+  error = function(error) {
+    # need the <<- because changing variables in the outer scope 
+    #do not "stick" here inside the catch (For some reason changes do stick in the try).
     messageToReturn$data$success <<- FALSE
-    messageToReturn$logcontent <<- paste0("Deletion of study: ", companyDesc, " by ",
+    messageToReturn$logcontent <<- paste0("Deletion of study: ",
+                                          companyDesc, " by ",
                                           message$data$username, "/",
                                           message$data$email, ": ",
                                           " Error: ", paste(error, collapse = ";"))
@@ -489,6 +557,16 @@ DBI_login_with_microsoft_handler <- function(self, private, message) {
     # after creating the user get user data.
     user_data <- DBI::dbGetQuery(private$db_conn, getQuery)
   }
+    # update last login time
+
+    update_last_login_sql <- paste0("UPDATE ", private$db_tables[1],
+    " SET last_login = ?last_login WHERE id = ?id;")
+
+    update_last_login_query <- DBI::sqlInterpolate(private$db_conn,
+      update_last_login_sql, last_login = db_timestamp(), id = user_data$id)
+
+    DBI::dbExecute(private$db_conn, update_last_login_query)
+    
     # always successfully login since they have already authenticated with Microsoft
   
     permissions <- getUserPermissions(user_data$id, private$db_conn)
@@ -503,6 +581,7 @@ DBI_login_with_microsoft_handler <- function(self, private, message) {
       disabled_dashboard_table = disabled_dashboard_table,
       user_id = user_data$username,
       user_mail = tolower(user_data$email),
+      is_admin = user_data$is_admin,
       account_id = user_data$id,
       logcontent = paste(message$data$username, "logged in with Microsoft")
     )
@@ -558,6 +637,7 @@ DBI_login_handler <- function(self, private, message) {
         "login", success = TRUE, username = TRUE, password = TRUE, is_logged_microsoft = FALSE,
         user_id = user_data$username,
         user_mail = tolower(user_data$email),
+        is_admin = user_data$is_admin,
         account_id = user_data$id,
         permissions = permissions,
         studies_table = studies_table,
@@ -592,7 +672,7 @@ DBI_login_handler <- function(self, private, message) {
 #' @keywords internal
 
 DBI_register_handler = function(self, private, message) {
-  
+
   check_namespace("DBI")
   
   private$db_check_n_refresh()
@@ -601,8 +681,8 @@ DBI_register_handler = function(self, private, message) {
   # firstly check if user or email exists
   sql <- paste0("SELECT * FROM ", private$db_tables[1], 
                 " WHERE username = ?username OR email = ?email;")
-  query <- DBI::sqlInterpolate(private$db_conn, sql, 
-                               username = message$data$username, 
+  query <- DBI::sqlInterpolate(private$db_conn, sql,
+                               username = message$data$username,
                                email = tolower(message$data$email))
   
   user_data <- DBI::dbGetQuery(private$db_conn, query)

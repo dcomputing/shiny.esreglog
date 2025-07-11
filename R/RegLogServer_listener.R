@@ -43,6 +43,7 @@ RegLogServer_listener <- function(
                 self$is_logged(FALSE)
                 self$user_id(uuid::UUIDgenerate())
                 self$user_mail(NULL)
+                self$is_admin(NULL)
                 self$account_id(NULL)
                 self$permissions(NULL)
                 self$is_logged_microsoft(FALSE)
@@ -114,6 +115,34 @@ RegLogServer_listener <- function(
               self$all_permissions(received_message$data$all_permissions)
               self$message(received_message)
             },
+
+            adjustUserAsAdmin = {
+              if (received_message$data$userAction == "Enable") {
+                if (received_message$data$success) {
+                  modals_check_n_show(private = private,
+                                      modalname = "setUserAsAdmin_success")
+                } else {
+                  modals_check_n_show(private = private,
+                                      modalname = "setUserAsAdmin_fail")
+                }
+              } else if (received_message$data$userAction == "Disable") {
+                if (received_message$data$success) {
+                  modals_check_n_show(private = private,
+                                      modalname = "removeUserAsAdmin_success")
+                } else {
+                  modals_check_n_show(private = private,
+                                      modalname = "removeUserAsAdmin_fail")
+                }
+              }
+              
+              self$all_users(received_message$data$all_users)
+              self$message(received_message)
+            },
+
+            removeUserAdAdmin = {
+              self$all_users(received_message$data$all_users)
+              self$message(received_message)
+            },
             
             addCompany = {
               self$companies_table(received_message$data$companies_table)
@@ -183,6 +212,7 @@ RegLogServer_listener <- function(
                 self$account_id(received_message$data$account_id)
                 self$user_id(received_message$data$user_id)
                 self$user_mail(received_message$data$user_mail)
+                self$is_admin(received_message$data$is_admin)
                 self$permissions(received_message$data$permissions)
                 self$studies_table(received_message$data$studies_table)
                 self$disabled_dashboard_table(received_message$data$disabled_dashboard_table)

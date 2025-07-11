@@ -58,7 +58,7 @@ RegLogServer_frontend <- function(
             label = RegLog_txt(lang = private$lang, custom_txts = private$custom_txts, x ="email")
           ),
           confirm_button = actionButton(
-            session$ns("register_bttn"), 
+            session$ns("register_bttn"),
             label = RegLog_txt(lang = private$lang, custom_txts = private$custom_txts, x ="register_bttn"),
             class = "reglog_bttn"
           )
@@ -134,7 +134,8 @@ RegLogServer_frontend <- function(
             session$ns("reset_send"),
             label = RegLog_txt(lang = private$lang, custom_txts = private$custom_txts, x ="reset_bttn_1"),
             class = "reglog_bttn"),
-          hidden(desc2 = p(id = session$ns("code_instructions"), RegLog_txt(lang = private$lang, custom_txts = private$custom_txts, x ="reset_ui_3")),
+          hidden(desc2 = p(id = session$ns("code_instructions"), RegLog_txt(lang = private$lang, 
+            custom_txts = private$custom_txts, x ="reset_ui_3")),
           reset_code = textInput(
             session$ns("reset_code"),
             label = RegLog_txt(lang = private$lang, custom_txts = private$custom_txts, x ="reset_ui_4")),

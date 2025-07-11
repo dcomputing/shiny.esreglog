@@ -22,6 +22,9 @@ RegLogServer <- R6::R6Class(
     #' @field user_mail reactiveVal cantaining character string specifying the 
     #' logged user mail. When not logged in, it contains NULL.
     user_mail = NULL,
+    #' @field is_admin reactiveVal containing logical indicating if the logged user
+    #' is an admin. If not logged in, it contains NULL.
+    is_admin = NULL,
     #' @field permissions table of current user's permissions for various studies
     permissions = NULL,
     #' @field all_permissions table of all users' permissions for various studies

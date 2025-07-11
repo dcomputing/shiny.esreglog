@@ -1,6 +1,6 @@
 Package: shiny.esreglog
 Title: Optional Login and Registration Module System for ShinyApps (edited)
-Version: 0.5.6
+Version: 0.5.7
 Authors@R: 
     person(given = "Christopher",
            family = "Chan",

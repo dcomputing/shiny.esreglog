@@ -23,6 +23,7 @@ RegLogServer_backend <- function(
       self$is_logged_microsoft <- reactiveVal(FALSE)
       self$user_id <- reactiveVal(uuid::UUIDgenerate())
       self$user_mail <- reactiveVal()
+      self$is_admin <- reactiveVal()
       self$permissions <- reactiveVal()
       self$all_permissions <- reactiveVal()
       self$all_users <- reactiveVal()

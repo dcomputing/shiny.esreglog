@@ -122,6 +122,7 @@ RegLogDBIConnector = R6::R6Class(
       self$handlers[["loginWithMicrosoft"]] <- DBI_login_with_microsoft_handler
       self$handlers[["getAllPermissions"]] <- DBI_get_all_permissions_handler
       self$handlers[["adjustPermissions"]] <- DBI_adjust_permissions_handler
+      self$handlers[["adjustUserAsAdmin"]] <- DBI_adjust_user_admin_handler
       self$handlers[["addCompany"]] <- DBI_add_company_handler
       self$handlers[["editCompany"]] <- DBI_edit_company_handler
       self$handlers[["delCompany"]] <- DBI_del_company_handler

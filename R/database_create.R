@@ -56,6 +56,8 @@ check_user_data <- function(user_data) {
 #'   - email: varchar(255), NOT NULL, unique key
 #'   - create_time: datetime, NOT NULL
 #'   - update_time: datetime, NOT NULL
+#'   - is_admin: boolean, NOT NULL
+#'   - last_login: datetime
 #' - reset_code (default name)
 #'   - id: integer, primary key, auto-increment
 #'   - user_id: integer, NOT NULL, key
@@ -123,7 +125,10 @@ DBI_tables_create <- function(
         "create_time" = if (inherits(conn, "PostgreSQLConnection"))  "TIMESTAMP NOT NULL" 
                       else "DATETIME NOT NULL",
         "update_time" = if (inherits(conn, "PostgreSQLConnection"))  "TIMESTAMP NOT NULL" 
-                      else "DATETIME NOT NULL"
+                      else "DATETIME NOT NULL",
+        "is_admin" = "BOOLEAN NOT NULL",
+        "last_login" = if (inherits(conn, "PostgreSQLConnection"))  "TIMESTAMP" 
+                      else "DATETIME"
     )),
     error = function(e) e,
     warning = function(w) w
